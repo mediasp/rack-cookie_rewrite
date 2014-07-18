@@ -1,7 +1,23 @@
-require "rack/cookie_rewrite/version"
+# coding: utf-8
 
 module Rack
-  module CookieRewrite
-    # Your code goes here...
+  # Rack middleware to add an alternate header for Cookies.
+  class CookieRewrite
+    def initialize(app, prefix)
+      @app = app
+      @prefix = prefix
+    end
+
+    def call(env)
+      (cookie = env["HTTP_X_#{@prefix}_COOKIE"]) &&
+        (env['HTTP_COOKIE'] = cookie)
+
+      status, headers, body = @app.call(env)
+
+      (cookie = headers['Set-Cookie']) &&
+        headers["X-#{@prefix}-Set-Cookie"] = cookie
+
+      [status, headers, body]
+    end
   end
 end
