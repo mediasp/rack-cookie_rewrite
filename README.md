@@ -1,6 +1,14 @@
 # Rack::CookieRewrite
 
-TODO: Write a gem description
+This is a Rack middleware to add extra headers which behave like the Cookie and
+Set-Cookie headers.
+
+This simple middleware sets anything in the X-#{prefix}-Cookie header to
+Cookie, and in the response will copy anything in Set-Cookie to
+X-#{prefix}-Set-Cookie. This can be useful to enable session management where
+an HTML client is accessing your API, which doesn't fully support cookies. We
+have found this to be the case in some Smart TV web applications, and in mobile
+apps written using frameworks such as Cordova
 
 ## Installation
 
@@ -18,7 +26,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    require 'rack/cookie_rewrite'
+    use Rack::Cookie, 'MSP'
+
+Then use cookies in your application as normal.
+
+In your client application, you can then use X-MSP-Cookie and X-MSP-Set-Cookie
+in lieu of normal Cookie commands. This means you will have to manually read
+and set these headers if you are sending requests that expect and set cookies.
+
 
 ## Contributing
 
