@@ -26,10 +26,13 @@ Or install it yourself as:
 
 ## Usage
 
-    require 'rack/cookie_rewrite'
-    use Rack::Cookie, 'MSP'
+In your config.ru, or where ever else you set up your Rack environment, add the
+following lines:
 
-Then use cookies in your application as normal.
+    require 'rack/cookie_rewrite'
+    use Rack::CookieRewrite, 'MSP'
+
+Then use cookies in your Rack application as normal.
 
 In your client application, you can then use X-MSP-Cookie and X-MSP-Set-Cookie
 in lieu of normal Cookie commands. This means you will have to manually read
